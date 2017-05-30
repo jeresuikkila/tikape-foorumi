@@ -7,12 +7,22 @@
     </head>
 
     <body>
-        <h1>Aihealueet</h1>
-
-        <ol>
-            <li th:each="aihe: ${aihealueet}">
-                <span th:text="${aihe.nimi}">aihealueen nimi</span> <a th:href="${'/aihealueet/' + aihe.id}">linkki</a>
-            </li>
-        </ol>
+        <h1>TiKaPe foorumi</h1>
+        <hr/>
+        
+        <h2>Aihealueet</h2>
+        
+        <table class="table"> 
+            <tr>
+                <th>Alue</th>
+                <th>Viestejä yhteensä</th>
+                <th>Viimeisin viesti</th>
+            </tr>
+            <tr th:each="aihe: ${aihealueet}">
+                <td><a th:href="${'/aihealue/' + aihe.id}" th:text="${aihe.nimi}">aihealueen nimi</a></td>
+                <td th:text="${aihe.viesteja}">0</td>
+                <td></td>
+            </tr>
+        </table>
     </body>
 </html>

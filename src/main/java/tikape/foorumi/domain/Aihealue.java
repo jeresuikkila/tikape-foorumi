@@ -7,10 +7,21 @@ package tikape.foorumi.domain;
 public class Aihealue {
     private Integer id;
     private String nimi;
+    private int viesteja;
+
+    public Aihealue(Integer id, String nimi, int viesteja) {
+        this.id = id;
+        this.nimi = nimi;
+        this.viesteja = viesteja;
+    }
 
     public Aihealue(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
+    }
+
+    public int getViesteja() {
+        return viesteja;
     }
 
     public Integer getId() {

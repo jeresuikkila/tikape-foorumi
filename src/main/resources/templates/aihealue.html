@@ -7,8 +7,12 @@
     </head>
 
     <body>
-        <h1>Hei <span th:text="${aihealue.nimi}">aihealue</span>!</h1>
+        <a href="/"><h1>TiKaPe foorumi</h1></a>
+        <hr/>
+        <h2 th:text="${aihealue.nimi}">aihealue</h2>
 
-        <p>Olet saapunut aihealueen <span th:text="${aihealue.nimi}">aihealue</span> sivulle.</p>
+        <ul th:each="k: ${keskustelunavaukset}">
+            <li th:text="${k.aihe}">keskustelunavaus</li>
+        </ul>
     </body>
 </html>

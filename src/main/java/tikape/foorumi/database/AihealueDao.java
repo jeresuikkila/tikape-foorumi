@@ -31,13 +31,13 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         Integer id = rs.getInt("id");
         String nimi = rs.getString("nimi");
 
-        Aihealue o = new Aihealue(id, nimi);
+        Aihealue a = new Aihealue(id, nimi, countViestit(id) + countKeskustelunavaukset(id));
 
         rs.close();
         stmt.close();
         connection.close();
 
-        return o;
+        return a;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
 
-            aihealueet.add(new Aihealue(id, nimi));
+            aihealueet.add(new Aihealue(id, nimi, countViestit(id) + countKeskustelunavaukset(id)));
         }
 
         rs.close();
@@ -65,6 +65,26 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
     @Override
     public void delete(Integer key) throws SQLException {
         // TODO: aihealueen poistaminen
+    }
+
+    public int countKeskustelunavaukset(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Keskustelunavaus WHERE aihealue = ?");
+
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        int count = rs.getInt(1);
+        return count;
+    }
+
+    public int countViestit(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti WHERE Keskustelunavaus IN (SELECT id FROM Keskustelunavaus WHERE aihealue = ?)");
+
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        int count = rs.getInt(1);
+        return count;
     }
 
 }

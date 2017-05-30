@@ -1,6 +1,7 @@
 package tikape.foorumi.domain;
 
-import java.sql.Timestamp;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -8,19 +9,28 @@ import java.sql.Timestamp;
  */
 public class Keskustelunavaus {
     private Integer id;
-    private String nimi;
+    private Integer aihealue;
     private String aihe;
-    private Timestamp timestamp;
+    private String timestamp;
     private String viesti;
     private String nimimerkki;
 
-    public Keskustelunavaus(Integer id, String nimi, String aihe, Timestamp timestamp, String viesti, String nimimerkki) {
+    public Keskustelunavaus(Integer id, Integer aihealue, String aihe, String timestamp, String viesti, String nimimerkki) {
         this.id = id;
-        this.nimi = nimi;
+        this.aihealue = aihealue;
         this.aihe = aihe;
         this.timestamp = timestamp;
         this.viesti = viesti;
         this.nimimerkki = nimimerkki;
+    }
+    
+    public Keskustelunavaus(ResultSet rs) throws SQLException {
+        this.id = rs.getInt("id");
+        this.aihealue = rs.getInt("aihealue");
+        this.aihe = rs.getString("aihe");
+        this.timestamp = rs.getString("timestamp");
+        this.viesti = rs.getString("viesti");
+        this.nimimerkki = rs.getString("nimimerkki");
     }
 
     public Integer getId() {
@@ -31,19 +41,16 @@ public class Keskustelunavaus {
         this.id = id;
     }
 
-    public String getNimi() {
-        return nimi;
+    public String getAihe() {
+        return aihe;
     }
 
-    public void setNimi(String nimi) {
-        this.nimi = nimi;
-    }    
+    public String getViesti() {
+        return viesti;
+    }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public String getNimimerkki() {
+        return nimimerkki;
     }
     
-    public boolean before(Keskustelunavaus toinen) {
-        return timestamp.before(toinen.getTimestamp());
-    }
 }
