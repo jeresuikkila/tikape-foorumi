@@ -1,4 +1,4 @@
-package tikape.runko.database;
+package tikape.foorumi.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Aihealue;
+import tikape.foorumi.domain.Aihealue;
 
 public class AihealueDao implements Dao<Aihealue, Integer> {
 
@@ -64,7 +64,7 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
 
     @Override
     public void delete(Integer key) throws SQLException {
-        // ei toteutettu
+        // TODO: aihealueen poistaminen
     }
 
 }

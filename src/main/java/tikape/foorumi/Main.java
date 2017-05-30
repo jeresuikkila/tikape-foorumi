@@ -1,16 +1,16 @@
-package tikape.runko;
+package tikape.foorumi;
 
 import java.util.HashMap;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-import tikape.runko.database.Database;
-import tikape.runko.database.AihealueDao;
+import tikape.foorumi.database.Database;
+import tikape.foorumi.database.AihealueDao;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:data/projekti.db");
+        Database database = new Database("jdbc:sqlite:data/testidata.db");
 
         AihealueDao aihealueDao = new AihealueDao(database);
 
