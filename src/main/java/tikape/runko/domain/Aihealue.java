@@ -1,11 +1,14 @@
 package tikape.runko.domain;
 
-public class Opiskelija {
-
+/**
+ *
+ * @author jere
+ */
+public class Aihealue {
     private Integer id;
     private String nimi;
 
-    public Opiskelija(Integer id, String nimi) {
+    public Aihealue(Integer id, String nimi) {
         this.id = id;
         this.nimi = nimi;
     }
@@ -24,6 +27,5 @@ public class Opiskelija {
 
     public void setNimi(String nimi) {
         this.nimi = nimi;
-    }
-
+    }    
 }
