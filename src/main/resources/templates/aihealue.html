@@ -12,7 +12,7 @@
         <h2 th:text="${aihealue.nimi}">aihealue</h2>
 
         <ul th:each="k: ${keskustelunavaukset}">
-            <li th:text="${k.aihe}">keskustelunavaus</li>
+            <li><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + k.id}" th:text="${k.aihe}">aihealueen nimi</a></li>
         </ul>
     </body>
 </html>
