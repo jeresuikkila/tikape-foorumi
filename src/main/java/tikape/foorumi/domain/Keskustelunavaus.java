@@ -52,5 +52,15 @@ public class Keskustelunavaus {
     public String getNimimerkki() {
         return nimimerkki;
     }
+
+    public Integer getAihealue() {
+        return aihealue;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+    
+    
     
 }
