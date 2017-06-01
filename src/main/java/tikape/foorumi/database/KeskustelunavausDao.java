@@ -54,6 +54,8 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         ResultSet rs = stmt.executeQuery();
         List<Keskustelunavaus> keskustelunavaukset = new ArrayList<>();
         while (rs.next()) {
+            Keskustelunavaus k = new Keskustelunavaus(rs);
+            k.setViesteja(countViestit(key));
             keskustelunavaukset.add(new Keskustelunavaus(rs));
         }
 
@@ -71,7 +73,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
 
     public int countViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti WHERE Keskustelunavaus = ?)");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti WHERE Keskustelunavaus = ?");
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();

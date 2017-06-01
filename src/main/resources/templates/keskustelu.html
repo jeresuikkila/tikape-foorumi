@@ -1,33 +1,35 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <title>Otsikko</title>
-        <meta charset="utf-8" />
+    <head th:replace="fragments/head :: head">
+        <title>TiKaPe foorumi</title>
     </head>
 
     <body>
-        <a href="/"><h1>TiKaPe foorumi</h1></a>
-        <a th:href="${'/aihealue/' + aihealue.id}"><h2 th:text="${aihealue.nimi}">aihealue</h2></a>
-        <hr/>
-        <h4 th:text="${keskustelunavaus.aihe}">keskustelu</h4>
-        <p th:text="${keskustelunavaus.viesti}">aloitusviesti</p>
-        <p th:text="${keskustelunavaus.timestamp}">päivä ja aika</p>
-        <p th:text="${keskustelunavaus.nimimerkki}">nimimerkki</p>
+        <nav th:replace="fragments/navbar :: navbar">...</nav>
+        <div class="container">
 
-        <ul th:each="v: ${viestit}">
-            <li>
-                <span th:text="${v.viesti}">viesti</span><br/>
-                <span th:text="${v.timestamp}"></span><br/>
-                <span th:text="${v.nimimerkki}"></span><br/>
-            </li>
-        </ul>
-        <hr />
-        <p>Lisää viesti</p>
-        <form>
-            Viesti: <textarea name="viesti" rows="6" cols="50"></textarea><br/>
-            Nimimerkki: <input type="text" name="nimimerkki"/><br/>
-            <input type="submit"/>
-        </form>
+            <a th:href="${'/aihealue/' + aihealue.id}"><h2 th:text="${aihealue.nimi}">aihealue</h2></a>
+            <hr/>
+            <h4 th:text="${keskustelunavaus.aihe}">keskustelu</h4>
+            <p th:text="${keskustelunavaus.viesti}">aloitusviesti</p>
+            <p th:text="${keskustelunavaus.timestamp}">päivä ja aika</p>
+            <p th:text="${keskustelunavaus.nimimerkki}">nimimerkki</p>
+
+            <ul th:each="v: ${viestit}">
+                <li>
+                    <span th:text="${v.viesti}">viesti</span><br/>
+                    <span th:text="${v.timestamp}"></span><br/>
+                    <span th:text="${v.nimimerkki}"></span><br/>
+                </li>
+            </ul>
+            <hr />
+            <p>Lisää viesti</p>
+            <form>
+                Viesti: <textarea name="viesti" rows="6" cols="50"></textarea><br/>
+                Nimimerkki: <input type="text" name="nimimerkki"/><br/>
+                <input type="submit"/>
+            </form>
+        </div>
     </body>
 </html>

@@ -1,18 +1,29 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-    <head>
-        <title>Otsikko</title>
-        <meta charset="utf-8" />
+    <head th:replace="fragments/head :: head">
+        <title>TiKaPe foorumi</title>
     </head>
 
     <body>
-        <a href="/"><h1>TiKaPe foorumi</h1></a>
-        <hr/>
-        <h2 th:text="${aihealue.nimi}">aihealue</h2>
+        <nav th:replace="fragments/navbar :: navbar">...</nav>
+        <div class="container">
+            
+            <h2 th:text="${aihealue.nimi}">aihealue</h2>
+            <table class="table"> 
+                <tr>
+                    <th>Alue</th>
+                    <th>Viestejä yhteensä</th>
+                    <th>Viimeisin viesti</th>
+                </tr>
+                <tr th:each="k: ${keskustelunavaukset}">
+                    <td><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + k.id}" th:text="${k.aihe}">aihealueen nimi</a></td>
+                    <td th:text="${k.viesteja}">0</td>
+                    <td></td>
+                </tr>
+            </table>
 
-        <ul th:each="k: ${keskustelunavaukset}">
-            <li><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + k.id}" th:text="${k.aihe}">aihealueen nimi</a></li>
-        </ul>
+
+        </div>
     </body>
 </html>
