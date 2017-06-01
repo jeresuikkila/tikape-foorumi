@@ -8,12 +8,14 @@ import java.sql.SQLException;
  * @author jere
  */
 public class Keskustelunavaus {
+
     private Integer id;
     private Integer aihealue;
     private String aihe;
     private String timestamp;
     private String viesti;
     private String nimimerkki;
+    private int viesteja;
 
     public Keskustelunavaus(Integer id, Integer aihealue, String aihe, String timestamp, String viesti, String nimimerkki) {
         this.id = id;
@@ -23,7 +25,7 @@ public class Keskustelunavaus {
         this.viesti = viesti;
         this.nimimerkki = nimimerkki;
     }
-    
+
     public Keskustelunavaus(ResultSet rs) throws SQLException {
         this.id = rs.getInt("id");
         this.aihealue = rs.getInt("aihealue");
@@ -60,7 +62,14 @@ public class Keskustelunavaus {
     public String getTimestamp() {
         return timestamp;
     }
+
+    public int getViesteja() {
+        return viesteja;
+    }
+
+    public void setViesteja(int viesteja) {
+        this.viesteja = viesteja;
+    }
     
-    
-    
+
 }
