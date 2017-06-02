@@ -51,8 +51,9 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         while (rs.next()) {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
-
-            aihealueet.add(new Aihealue(id, nimi, countViestit(id) + countKeskustelunavaukset(id)));
+            Aihealue a = new Aihealue(id, nimi, countViestit(id) + countKeskustelunavaukset(id));
+            a.setViimeisinViesti(viimeisinViesti(a.getId()));
+            aihealueet.add(a);
         }
 
         rs.close();
@@ -87,4 +88,13 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         return count;
     }
 
+    public String viimeisinViesti(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.timestamp) FROM Viesti, Keskustelunavaus, Aihealue WHERE Viesti.keskustelunavaus = Keskustelunavaus.id AND Keskustelunavaus.aihealue = Aihealue.id AND Aihealue.id = ?");
+
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        
+        return rs.getString(1);
+    }
 }

@@ -1,13 +1,17 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-
+<!--
     <head th:replace="fragments/head :: head">
         <title>TiKaPe foorumi</title>
     </head>
+-->
 
+<head>
+    <title>TiKaPe foorumi</title>
+</head>
     <body>
-        <nav th:replace="fragments/navbar :: navbar">...</nav>
-        
+   <!--     <nav th:replace="fragments/navbar :: navbar">...</nav>
+   -->     
         <div class="container">
         <h2>Aihealueet</h2>
         
@@ -20,7 +24,7 @@
             <tr th:each="aihe: ${aihealueet}">
                 <td><a th:href="${'/aihealue/' + aihe.id}" th:text="${aihe.nimi}">aihealueen nimi</a></td>
                 <td th:text="${aihe.viesteja}">0</td>
-                <td></td>
+                <td th:text="${aihe.viimeisinViesti}">0</td>
             </tr>
         </table>
         </div>

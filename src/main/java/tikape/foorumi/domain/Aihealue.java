@@ -8,6 +8,7 @@ public class Aihealue {
     private Integer id;
     private String nimi;
     private int viesteja;
+    private String viimeisinViesti;
 
     public Aihealue(Integer id, String nimi, int viesteja) {
         this.id = id;
@@ -20,6 +21,14 @@ public class Aihealue {
         this.nimi = nimi;
     }
 
+    public String getViimeisinViesti() {
+        return this.viimeisinViesti;
+    }
+    
+    public void setViimeisinViesti(String v) {
+        this.viimeisinViesti = v;
+    }
+    
     public int getViesteja() {
         return viesteja;
     }

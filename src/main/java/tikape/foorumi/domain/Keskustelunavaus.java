@@ -16,7 +16,8 @@ public class Keskustelunavaus {
     private String viesti;
     private String nimimerkki;
     private int viesteja;
-
+    private String viimeisinViesti;
+    
     public Keskustelunavaus(Integer id, Integer aihealue, String aihe, String timestamp, String viesti, String nimimerkki) {
         this.id = id;
         this.aihealue = aihealue;
@@ -35,6 +36,14 @@ public class Keskustelunavaus {
         this.nimimerkki = rs.getString("nimimerkki");
     }
 
+    public String getViimeisinViesti() {
+        return this.viimeisinViesti;
+    }
+    
+    public void setViimeisinViesti(String v) {
+        this.viimeisinViesti = v;
+    }
+    
     public Integer getId() {
         return id;
     }
