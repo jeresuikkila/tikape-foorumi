@@ -6,7 +6,9 @@
     </head>
 
     <body>
+        
         <nav th:replace="fragments/navbar :: navbar">...</nav>
+
         <div class="container">
             
             <h2 th:text="${aihealue.nimi}">aihealue</h2>
@@ -19,7 +21,7 @@
                 <tr th:each="k: ${keskustelunavaukset}">
                     <td><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + k.id}" th:text="${k.aihe}">aihealueen nimi</a></td>
                     <td th:text="${k.viesteja}">0</td>
-                    <td></td>
+                    <td th:text="${k.viimeisinViesti}">0</td>
                 </tr>
             </table>
 

@@ -55,8 +55,10 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         List<Keskustelunavaus> keskustelunavaukset = new ArrayList<>();
         while (rs.next()) {
             Keskustelunavaus k = new Keskustelunavaus(rs);
-            k.setViesteja(countViestit(key));
-            keskustelunavaukset.add(new Keskustelunavaus(rs));
+
+            k.setViesteja(countViestit(k.getId()));
+            k.setViimeisinViesti(viimeisinViesti(k.getId()));
+            keskustelunavaukset.add(k);
         }
 
         rs.close();
@@ -71,9 +73,19 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         // TODO: keskustelualueen poistaminen
     }
 
+    public String viimeisinViesti(Integer key) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.timestamp) FROM Viesti WHERE Viesti.keskustelunavaus = ?");
+
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        
+        return rs.getString(1);
+    }
+    
     public int countViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti WHERE Keskustelunavaus = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti v WHERE v.keskustelunavaus = ?");
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
