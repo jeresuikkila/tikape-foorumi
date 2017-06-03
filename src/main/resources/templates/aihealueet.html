@@ -6,24 +6,28 @@
     </head>
 
     <body>
-        
+
         <nav th:replace="fragments/navbar :: navbar">...</nav>
 
         <div class="container">
-        <h2>Aihealueet</h2>
-        
-        <table class="table"> 
-            <tr>
-                <th>Alue</th>
-                <th>Viestejä yhteensä</th>
-                <th>Viimeisin viesti</th>
-            </tr>
-            <tr th:each="aihe: ${aihealueet}">
-                <td><a th:href="${'/aihealue/' + aihe.id}" th:text="${aihe.nimi}">aihealueen nimi</a></td>
-                <td th:text="${aihe.viesteja}">0</td>
-                <td th:text="${aihe.viimeisinViesti}">0</td>
-            </tr>
-        </table>
+            <h2>Aihealueet</h2>
+
+            <table class="table"> 
+                <tr>
+                    <th>Alue</th>
+                    <th>Viestejä yhteensä</th>
+                    <th>Viimeisin viesti</th>
+                </tr>
+                <tr th:each="aihe: ${aihealueet}">
+                    <td><a th:href="${'/aihealue/' + aihe.id}" th:text="${aihe.nimi}">aihealueen nimi</a></td>
+                    <td th:text="${aihe.viesteja}">0</td>
+                    <td th:text="${aihe.viimeisinViesti}">0</td>
+                </tr>
+            </table>
+            <form>
+                Aihealue: <input type="text" name="Aihealue" maxlength="64"/><br/>
+                <input type="submit"/>
+            </form>
         </div>
     </body>
 </html>

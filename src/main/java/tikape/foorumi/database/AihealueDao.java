@@ -75,6 +75,10 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
         int count = rs.getInt(1);
+        
+        
+        stmt.close();
+        connection.close();
         return count;
     }
 
@@ -85,6 +89,10 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
         int count = rs.getInt(1);
+        
+        
+        stmt.close();
+        connection.close();
         return count;
     }
 
@@ -94,7 +102,22 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
+        String timestamp = rs.getString(1);
         
-        return rs.getString(1);
+//        stmt.close();
+        connection.close();
+        
+        return timestamp;
+    }
+
+    public void create(String nimi) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement statement =
+            connection.prepareStatement("INSERT INTO Aihealue (nimi) VALUES (?)");
+
+        statement.setString(1, nimi);
+        statement.executeUpdate();
+        statement.close();
+        connection.close();
     }
 }

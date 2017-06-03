@@ -19,6 +19,11 @@ public class Main {
         ViestiDao viestiDao = new ViestiDao(database);
 
         get("/", (req, res) -> {
+            String nimi = req.queryParams("Aihealue");
+            if (nimi != null && !nimi.isEmpty()) {
+                aihealueDao.create(nimi);
+            }
+
             HashMap map = new HashMap<>();
             map.put("aihealueet", aihealueDao.findAll());
 
@@ -41,9 +46,9 @@ public class Main {
             map.put("aihealue", aihealueDao.findOne(aihe));
             map.put("keskustelunavaus", keskustelunavausDao.findOne(id));
             map.put("viestit", viestiDao.findAllInKeskustelunavaus(id));
-            
+
             return new ModelAndView(map, "keskustelu");
         }, new ThymeleafTemplateEngine());
-        
+
     }
 }
