@@ -48,7 +48,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
     public List<Keskustelunavaus> findAllInAihealue(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Keskustelunavaus k WHERE k.aihealue = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT k.* FROM Keskustelunavaus k LEFT JOIN Viesti ON k.id = Viesti.keskustelunavaus WHERE k.aihealue = ? ORDER BY Viesti.timestamp DESC");
         stmt.setObject(1, key);
         
         ResultSet rs = stmt.executeQuery();

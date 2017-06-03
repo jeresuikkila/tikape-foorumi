@@ -20,7 +20,7 @@ public class ViestiDao {
     public List<Viesti> findAllInKeskustelunavaus(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti v WHERE v.keskustelunavaus = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Viesti v WHERE v.keskustelunavaus = ? ORDER BY timestamp ASC");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
