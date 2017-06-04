@@ -16,7 +16,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
 
     public KeskustelunavausDao(Database database) {
         this.database = database;
-    } 
+    }
 
     @Override
     public Keskustelunavaus findOne(Integer key) throws SQLException {
@@ -29,7 +29,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         if (!hasOne) {
             return null;
         }
-        
+
         Keskustelunavaus k = new Keskustelunavaus(rs);
 
         rs.close();
@@ -44,13 +44,13 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         // TODO: findAll() for Keskustelunavaus
         return null;
     }
-    
+
     public List<Keskustelunavaus> findAllInAihealue(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT k.* FROM Keskustelunavaus k LEFT JOIN Viesti ON k.id = Viesti.keskustelunavaus WHERE k.aihealue = ? ORDER BY Viesti.timestamp DESC");
         stmt.setObject(1, key);
-        
+
         ResultSet rs = stmt.executeQuery();
         List<Keskustelunavaus> keskustelunavaukset = new ArrayList<>();
         while (rs.next()) {
@@ -79,10 +79,12 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
-        
-        return rs.getString(1);
+        String timestamp = rs.getString(1);
+
+        connection.close();
+        return timestamp;
     }
-    
+
     public int countViestit(Integer key) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT COUNT(*) FROM Viesti v WHERE v.keskustelunavaus = ?");
@@ -90,7 +92,23 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
         int count = rs.getInt(1);
+        connection.close();
         return count;
+    }
+
+    public void create(int aihealue, String aihe, String viesti, String nimimerkki) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement statement
+                = connection.prepareStatement("INSERT INTO Keskustelunavaus (aihealue, aihe, viesti, nimimerkki) VALUES (?, ?, ?, ?)");
+
+        // Rajoittaa aihealueen nimen 64 merkkiin
+        statement.setInt(1, aihealue);
+        statement.setString(2, aihe);
+        statement.setString(3, viesti);
+        statement.setString(4, nimimerkki);
+        statement.executeUpdate();
+        statement.close();
+        connection.close();
     }
 
 }

@@ -19,8 +19,8 @@ public class Main {
         ViestiDao viestiDao = new ViestiDao(database);
 
         get("/", (req, res) -> {
-            String nimi = req.queryParams("Aihealue");
-            if (nimi != null && !nimi.isEmpty()) {
+            String nimi = req.queryParams("aihealue");
+            if (nimi != null && !nimi.trim().isEmpty()) {
                 aihealueDao.create(nimi);
             }
 
@@ -31,10 +31,21 @@ public class Main {
         }, new ThymeleafTemplateEngine());
 
         get("/aihealue/:id", (req, res) -> {
-            int id = Integer.parseInt(req.params("id"));
+            int aihealue = Integer.parseInt(req.params("id"));
+            
+            String aihe = req.queryParams("aihe");
+            String viesti = req.queryParams("viesti");
+            String nimimerkki = req.queryParams("nimimerkki");
+            if (aihe != null && viesti != null && nimimerkki != null &&
+                !aihe.trim().isEmpty() && !viesti.trim().isEmpty() && !nimimerkki.trim().isEmpty()) {
+                keskustelunavausDao.create(aihealue, aihe, viesti, nimimerkki);
+            }
+            
+            
+            
             HashMap map = new HashMap<>();
-            map.put("aihealue", aihealueDao.findOne(id));
-            map.put("keskustelunavaukset", keskustelunavausDao.findAllInAihealue(id));
+            map.put("aihealue", aihealueDao.findOne(aihealue));
+            map.put("keskustelunavaukset", keskustelunavausDao.findAllInAihealue(aihealue));
 
             return new ModelAndView(map, "aihealue");
         }, new ThymeleafTemplateEngine());
