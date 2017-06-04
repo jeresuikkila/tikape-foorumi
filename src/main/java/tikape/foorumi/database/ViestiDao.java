@@ -35,4 +35,18 @@ public class ViestiDao {
 
         return viestit;
     }
+
+    public void create(int keskustelunavaus, String viesti, String nimimerkki) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement statement
+                = connection.prepareStatement("INSERT INTO Viesti (keskustelunavaus, viesti, nimimerkki) VALUES (?, ?, ?)");
+
+        statement.setInt(1, keskustelunavaus);
+        statement.setString(2, viesti);
+        statement.setString(3, nimimerkki);
+        statement.executeUpdate();
+        statement.close();
+        connection.close();
+    }
+
 }

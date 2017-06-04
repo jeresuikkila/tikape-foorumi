@@ -32,17 +32,15 @@ public class Main {
 
         get("/aihealue/:id", (req, res) -> {
             int aihealue = Integer.parseInt(req.params("id"));
-            
+
             String aihe = req.queryParams("aihe");
             String viesti = req.queryParams("viesti");
             String nimimerkki = req.queryParams("nimimerkki");
-            if (aihe != null && viesti != null && nimimerkki != null &&
-                !aihe.trim().isEmpty() && !viesti.trim().isEmpty() && !nimimerkki.trim().isEmpty()) {
+            if (aihe != null && viesti != null && nimimerkki != null
+                    && !aihe.trim().isEmpty() && !viesti.trim().isEmpty() && !nimimerkki.trim().isEmpty()) {
                 keskustelunavausDao.create(aihealue, aihe, viesti, nimimerkki);
             }
-            
-            
-            
+
             HashMap map = new HashMap<>();
             map.put("aihealue", aihealueDao.findOne(aihealue));
             map.put("keskustelunavaukset", keskustelunavausDao.findAllInAihealue(aihealue));
@@ -52,11 +50,19 @@ public class Main {
 
         get("/aihealue/:aihe/keskustelu/:id", (req, res) -> {
             int aihe = Integer.parseInt(req.params("aihe"));
-            int id = Integer.parseInt(req.params("id"));
+            int keskustelunavaus = Integer.parseInt(req.params("id"));
+
+            String viesti = req.queryParams("viesti");
+            String nimimerkki = req.queryParams("nimimerkki");
+            if (viesti != null && nimimerkki != null
+                    && !viesti.trim().isEmpty() && !nimimerkki.trim().isEmpty()) {
+                viestiDao.create(keskustelunavaus, viesti, nimimerkki);
+            }
+
             HashMap map = new HashMap<>();
             map.put("aihealue", aihealueDao.findOne(aihe));
-            map.put("keskustelunavaus", keskustelunavausDao.findOne(id));
-            map.put("viestit", viestiDao.findAllInKeskustelunavaus(id));
+            map.put("keskustelunavaus", keskustelunavausDao.findOne(keskustelunavaus));
+            map.put("viestit", viestiDao.findAllInKeskustelunavaus(keskustelunavaus));
 
             return new ModelAndView(map, "keskustelu");
         }, new ThymeleafTemplateEngine());

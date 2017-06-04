@@ -101,7 +101,6 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         PreparedStatement statement
                 = connection.prepareStatement("INSERT INTO Keskustelunavaus (aihealue, aihe, viesti, nimimerkki) VALUES (?, ?, ?, ?)");
 
-        // Rajoittaa aihealueen nimen 64 merkkiin
         statement.setInt(1, aihealue);
         statement.setString(2, aihe);
         statement.setString(3, viesti);
