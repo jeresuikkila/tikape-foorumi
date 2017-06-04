@@ -115,7 +115,8 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         PreparedStatement statement =
             connection.prepareStatement("INSERT INTO Aihealue (nimi) VALUES (?)");
 
-        statement.setString(1, nimi);
+        // Rajoittaa aihealueen nimen 64 merkkiin
+        statement.setString(1, nimi.substring(0, Math.min(nimi.length(), 64)));
         statement.executeUpdate();
         statement.close();
         connection.close();
