@@ -16,15 +16,19 @@
             <p th:text="${keskustelunavaus.timestamp}">päivä ja aika</p>
             <p th:text="${keskustelunavaus.nimimerkki}">nimimerkki</p>
 
-            <ul th:each="v: ${viestit}">
-                <li>
-                    <span th:text="${v.viesti}">viesti</span><br/>
+            <div th:each="v: ${viestit}">
+                <hr />
+                <p>
+                    <span th:text="${v.viesti}">viesti</span>
+                </p>
+                <p>
                     <span th:text="${v.timestamp}"></span><br/>
                     <span th:text="${v.nimimerkki}"></span><br/>
-                </li>
-            </ul>
+                </p>
+                
+            </div>
             <hr />
-            <p>Lisää viesti</p>
+            <h2>Lisää viesti</h2>
             <form>
                 Viesti: <textarea name="viesti" rows="6" cols="50"></textarea><br/>
                 Nimimerkki: <input type="text" name="nimimerkki"/><br/>
