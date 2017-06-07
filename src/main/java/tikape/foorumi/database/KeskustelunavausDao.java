@@ -75,14 +75,27 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
 
     public String viimeisinViesti(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.timestamp) FROM Viesti WHERE Viesti.keskustelunavaus = ?");
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT k.timestamp, " +
+                "(SELECT MAX(v.timestamp) " +
+                "FROM Viesti v WHERE v.keskustelunavaus = ?) AS viimeisin_viesti " +
+                "FROM Keskustelunavaus k WHERE k.id = ?;");
 
         stmt.setInt(1, key);
+        stmt.setInt(2, key);
         ResultSet rs = stmt.executeQuery();
         String timestamp = rs.getString(1);
+        String viimeisinViesti = rs.getString(2);
+        System.out.println("timestamp: " + timestamp);
+        System.out.println("Viimeisin viesti: " + viimeisinViesti);
 
         connection.close();
-        return timestamp;
+        
+        if (viimeisinViesti == null) {
+            return timestamp;
+        }
+        
+        return viimeisinViesti;
     }
 
     public int countViestit(Integer key) throws SQLException {

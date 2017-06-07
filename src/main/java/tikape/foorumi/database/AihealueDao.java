@@ -98,16 +98,29 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
 
     public String viimeisinViesti(Integer key) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT MAX(Viesti.timestamp) FROM Viesti, Keskustelunavaus, Aihealue WHERE Viesti.keskustelunavaus = Keskustelunavaus.id AND Keskustelunavaus.aihealue = Aihealue.id AND Aihealue.id = ?");
 
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT MAX(k.timestamp), " +
+                    "(SELECT MAX(v.timestamp) " +
+                    "FROM Viesti v WHERE v.keskustelunavaus IN " + 
+                    "(SELECT k.id FROM Keskustelunavaus k, Aihealue a WHERE k.aihealue = ?)) AS viimeisin_viesti " +
+                "FROM Keskustelunavaus k JOIN Aihealue a ON k.aihealue = ?");
+        
         stmt.setInt(1, key);
+        stmt.setInt(2, key);
         ResultSet rs = stmt.executeQuery();
         String timestamp = rs.getString(1);
-        
-//        stmt.close();
+        String viimeisinViesti = rs.getString(2);
+        System.out.println("timestamp: " + timestamp);
+        System.out.println("Viimeisin viesti: " + viimeisinViesti);
+
         connection.close();
         
-        return timestamp;
+        if (viimeisinViesti == null) {
+            return timestamp;
+        }
+        
+        return viimeisinViesti;
     }
 
     public void create(String nimi) throws SQLException {
