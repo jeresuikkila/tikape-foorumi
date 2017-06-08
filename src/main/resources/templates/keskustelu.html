@@ -13,7 +13,8 @@
             <hr/>
             <h4 th:text="${keskustelunavaus.aihe}">keskustelu</h4>
             <p th:text="${keskustelunavaus.viesti}">aloitusviesti</p>
-            <p th:text="${keskustelunavaus.timestamp}">päivä ja aika<br />
+            <p>
+                <span th:text="${keskustelunavaus.timestamp}">päivä ja aika</span><br />
                 <span th:text="${keskustelunavaus.nimimerkki}">nimimerkki</span>
             </p>
 
