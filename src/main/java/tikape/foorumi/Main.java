@@ -19,18 +19,33 @@ public class Main {
         ViestiDao viestiDao = new ViestiDao(database);
 
         get("/", (req, res) -> {
-            String nimi = req.queryParams("aihealue");
-            if (nimi != null && !nimi.trim().isEmpty()) {
-                aihealueDao.create(nimi);
-            }
-
             HashMap map = new HashMap<>();
             map.put("aihealueet", aihealueDao.findAll());
 
             return new ModelAndView(map, "aihealueet");
         }, new ThymeleafTemplateEngine());
 
+        post("/", (req, res) -> {
+            String nimi = req.queryParams("aihealue");
+            if (nimi != null && !nimi.trim().isEmpty()) {
+                aihealueDao.create(nimi);
+            }
+
+            res.redirect("/");
+            return "";
+        });
+
         get("/aihealue/:id", (req, res) -> {
+            int aihealue = Integer.parseInt(req.params("id"));
+
+            HashMap map = new HashMap<>();
+            map.put("aihealue", aihealueDao.findOne(aihealue));
+            map.put("keskustelunavaukset", keskustelunavausDao.findAllInAihealue(aihealue));
+
+            return new ModelAndView(map, "aihealue");
+        }, new ThymeleafTemplateEngine());
+
+        post("/aihealue/:id", (req, res) -> {
             int aihealue = Integer.parseInt(req.params("id"));
 
             String aihe = req.queryParams("aihe");
@@ -41,14 +56,23 @@ public class Main {
                 keskustelunavausDao.create(aihealue, aihe, viesti, nimimerkki);
             }
 
-            HashMap map = new HashMap<>();
-            map.put("aihealue", aihealueDao.findOne(aihealue));
-            map.put("keskustelunavaukset", keskustelunavausDao.findAllInAihealue(aihealue));
-
-            return new ModelAndView(map, "aihealue");
-        }, new ThymeleafTemplateEngine());
+            res.redirect("/aihealue/" + aihealue);
+            return "";
+        });
 
         get("/aihealue/:aihe/keskustelu/:id", (req, res) -> {
+            int aihe = Integer.parseInt(req.params("aihe"));
+            int keskustelunavaus = Integer.parseInt(req.params("id"));
+
+            HashMap map = new HashMap<>();
+            map.put("aihealue", aihealueDao.findOne(aihe));
+            map.put("keskustelunavaus", keskustelunavausDao.findOne(keskustelunavaus));
+            map.put("viestit", viestiDao.findAllInKeskustelunavaus(keskustelunavaus));
+
+            return new ModelAndView(map, "keskustelu");
+        }, new ThymeleafTemplateEngine());
+
+        post("/aihealue/:aihe/keskustelu/:id", (req, res) -> {
             int aihe = Integer.parseInt(req.params("aihe"));
             int keskustelunavaus = Integer.parseInt(req.params("id"));
 
@@ -59,13 +83,9 @@ public class Main {
                 viestiDao.create(keskustelunavaus, viesti, nimimerkki);
             }
 
-            HashMap map = new HashMap<>();
-            map.put("aihealue", aihealueDao.findOne(aihe));
-            map.put("keskustelunavaus", keskustelunavausDao.findOne(keskustelunavaus));
-            map.put("viestit", viestiDao.findAllInKeskustelunavaus(keskustelunavaus));
-
-            return new ModelAndView(map, "keskustelu");
-        }, new ThymeleafTemplateEngine());
+            res.redirect("/aihealue/" + aihe + "/keskustelu/" + keskustelunavaus);
+            return "";
+        });
 
     }
 }
