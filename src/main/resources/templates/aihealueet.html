@@ -15,11 +15,13 @@
             <table class="table"> 
                 <tr>
                     <th>Alue</th>
+                    <th>Keskustelunavauksia</th>
                     <th>Viestejä yhteensä</th>
                     <th>Viimeisin viesti</th>
                 </tr>
                 <tr th:each="aihe: ${aihealueet}">
                     <td><a th:href="${'/aihealue/' + aihe.id}" th:text="${aihe.nimi}">aihealueen nimi</a></td>
+                    <td th:text="${aihe.keskustelunavauksia}">0</td>
                     <td th:text="${aihe.viesteja}">0</td>
                     <td th:text="${aihe.viimeisinViesti}"></td>
                 </tr>

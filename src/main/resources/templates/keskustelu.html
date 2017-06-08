@@ -13,8 +13,9 @@
             <hr/>
             <h4 th:text="${keskustelunavaus.aihe}">keskustelu</h4>
             <p th:text="${keskustelunavaus.viesti}">aloitusviesti</p>
-            <p th:text="${keskustelunavaus.timestamp}">päivä ja aika</p>
-            <p th:text="${keskustelunavaus.nimimerkki}">nimimerkki</p>
+            <p th:text="${keskustelunavaus.timestamp}">päivä ja aika<br />
+                <span th:text="${keskustelunavaus.nimimerkki}">nimimerkki</span>
+            </p>
 
             <div th:each="v: ${viestit}">
                 <hr />
@@ -23,7 +24,7 @@
                 </p>
                 <p>
                     <span th:text="${v.timestamp}"></span><br/>
-                    <span th:text="${v.nimimerkki}"></span><br/>
+                    <span th:text="${v.nimimerkki}"></span>
                 </p>
                 
             </div>

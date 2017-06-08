@@ -9,6 +9,7 @@ public class Aihealue {
     private String nimi;
     private int viesteja;
     private String viimeisinViesti;
+    private int keskustelunavauksia;
 
     public Aihealue(Integer id, String nimi, int viesteja) {
         this.id = id;
@@ -48,4 +49,13 @@ public class Aihealue {
     public void setNimi(String nimi) {
         this.nimi = nimi;
     }    
+
+    public void setKeskustelunavauksia(int keskustelunavauksia) {
+        this.keskustelunavauksia = keskustelunavauksia;
+    }
+
+    public int getKeskustelunavauksia() {
+        return keskustelunavauksia;
+    }
+    
 }

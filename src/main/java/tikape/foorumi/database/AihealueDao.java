@@ -51,8 +51,11 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         while (rs.next()) {
             Integer id = rs.getInt("id");
             String nimi = rs.getString("nimi");
-            Aihealue a = new Aihealue(id, nimi, countViestit(id) + countKeskustelunavaukset(id));
+            
+            int keskustelunavauksia = countKeskustelunavaukset(id);
+            Aihealue a = new Aihealue(id, nimi, countViestit(id) + keskustelunavauksia);
             a.setViimeisinViesti(viimeisinViesti(a.getId()));
+            a.setKeskustelunavauksia(keskustelunavauksia);
             aihealueet.add(a);
         }
 
