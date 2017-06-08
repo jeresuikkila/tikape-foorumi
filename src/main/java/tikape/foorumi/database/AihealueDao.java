@@ -114,8 +114,6 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         ResultSet rs = stmt.executeQuery();
         String timestamp = rs.getString(1);
         String viimeisinViesti = rs.getString(2);
-        System.out.println("timestamp: " + timestamp);
-        System.out.println("Viimeisin viesti: " + viimeisinViesti);
 
         connection.close();
         

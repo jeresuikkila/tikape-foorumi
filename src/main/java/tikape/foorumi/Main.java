@@ -63,12 +63,20 @@ public class Main {
         get("/aihealue/:aihe/keskustelu/:id", (req, res) -> {
             int aihe = Integer.parseInt(req.params("aihe"));
             int keskustelunavaus = Integer.parseInt(req.params("id"));
+            
+            Integer sivu = 1;
+            if (req.queryParams().contains("sivu") 
+                    && Integer.parseInt(req.queryParams("sivu")) > 1) {
+                sivu = Integer.parseInt(req.queryParams("sivu"));
+            }
 
             HashMap map = new HashMap<>();
             map.put("aihealue", aihealueDao.findOne(aihe));
             map.put("keskustelunavaus", keskustelunavausDao.findOne(keskustelunavaus));
-            map.put("viestit", viestiDao.findAllInKeskustelunavaus(keskustelunavaus));
-
+            map.put("viestit", viestiDao.findPaginatedInKeskustelunavaus(keskustelunavaus, sivu));
+            map.put("next", sivu + 1);
+            map.put("previous", sivu - 1);
+            
             return new ModelAndView(map, "keskustelu");
         }, new ThymeleafTemplateEngine());
 
