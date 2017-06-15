@@ -32,8 +32,8 @@
             <hr />
             <nav aria-label="...">
                 <ul class="pager">
-                    <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Older</a></li>
-                    <li class="next"><a href="#">Newer 
+                    <li class="previous" th:classappend="${next==1}? disabled : ''"><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + keskustelunavaus.id + '?sivu=' + previous}"><span aria-hidden="true">&larr;</span> Older</a></li>
+                    <li class="next"><a th:href="${'/aihealue/' + aihealue.id + '/keskustelu/' + keskustelunavaus.id + '?sivu=' + next}">Newer 
                             <span aria-hidden="true">&rarr;</span></a></li>
                 </ul>
             </nav>
