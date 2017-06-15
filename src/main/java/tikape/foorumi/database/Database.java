@@ -11,6 +11,8 @@ public class Database {
 
     public Database(String databaseAddress) throws ClassNotFoundException {
         this.databaseAddress = databaseAddress;
+        
+        init();
     }
 
     public Connection getConnection() throws SQLException {
