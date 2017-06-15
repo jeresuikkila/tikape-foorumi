@@ -48,7 +48,14 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
     public List<Keskustelunavaus> findAllInAihealue(Integer key) throws SQLException {
 
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT DISTINCT k.* FROM Keskustelunavaus k LEFT JOIN Viesti ON k.id = Viesti.keskustelunavaus WHERE k.aihealue = ? ORDER BY Viesti.timestamp DESC");
+        
+        // FIXME: There must be a better query for this
+        // Viesti.timestamp was added to SELECT because it is required in psql to use ORDER BY
+        // See more: https://stackoverflow.com/questions/12693089/pgerror-select-distinct-order-by-expressions-must-appear-in-select-list
+        PreparedStatement stmt = connection.prepareStatement(
+                "SELECT DISTINCT k.*, Viesti.timestamp FROM Keskustelunavaus k "
+                        + "LEFT JOIN Viesti ON k.id = Viesti.keskustelunavaus "
+                        + "WHERE k.aihealue = ? ORDER BY Viesti.timestamp DESC");
         stmt.setObject(1, key);
 
         ResultSet rs = stmt.executeQuery();
