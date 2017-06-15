@@ -77,8 +77,8 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         int count = rs.getInt(1);
-        
         
         stmt.close();
         connection.close();
@@ -91,6 +91,7 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         int count = rs.getInt(1);
         
         
