@@ -12,7 +12,20 @@ import tikape.foorumi.database.ViestiDao;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Database database = new Database("jdbc:sqlite:data/testidata.db");
+
+        // asetetaan portti jos heroku antaa PORT-ympäristömuuttujan
+        if (System.getenv("PORT") != null) {
+            port(Integer.valueOf(System.getenv("PORT")));
+        }
+
+        // käytetään oletuksena paikallista sqlite-tietokantaa
+        String jdbcOsoite = "jdbc:sqlite:data/testidata.db";
+        // jos heroku antaa käyttöömme tietokantaosoitteen, otetaan se käyttöön
+        if (System.getenv("DATABASE_URL") != null) {
+            jdbcOsoite = System.getenv("DATABASE_URL");
+        }
+
+        Database database = new Database(jdbcOsoite);
 
         AihealueDao aihealueDao = new AihealueDao(database);
         KeskustelunavausDao keskustelunavausDao = new KeskustelunavausDao(database);
@@ -63,9 +76,9 @@ public class Main {
         get("/aihealue/:aihe/keskustelu/:id", (req, res) -> {
             int aihe = Integer.parseInt(req.params("aihe"));
             int keskustelunavaus = Integer.parseInt(req.params("id"));
-            
+
             Integer sivu = 1;
-            if (req.queryParams().contains("sivu") 
+            if (req.queryParams().contains("sivu")
                     && Integer.parseInt(req.queryParams("sivu")) > 1) {
                 sivu = Integer.parseInt(req.queryParams("sivu"));
             }
@@ -76,7 +89,7 @@ public class Main {
             map.put("viestit", viestiDao.findPaginatedInKeskustelunavaus(keskustelunavaus, sivu));
             map.put("next", sivu + 1);
             map.put("previous", sivu - 1);
-            
+
             return new ModelAndView(map, "keskustelu");
         }, new ThymeleafTemplateEngine());
 
