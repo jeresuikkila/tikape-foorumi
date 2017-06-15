@@ -113,6 +113,7 @@ public class AihealueDao implements Dao<Aihealue, Integer> {
         stmt.setInt(1, key);
         stmt.setInt(2, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         String timestamp = rs.getString(1);
         String viimeisinViesti = rs.getString(2);
 

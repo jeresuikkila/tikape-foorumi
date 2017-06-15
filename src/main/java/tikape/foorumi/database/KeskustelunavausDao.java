@@ -84,6 +84,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
         stmt.setInt(1, key);
         stmt.setInt(2, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         String timestamp = rs.getString(1);
         String viimeisinViesti = rs.getString(2);
         System.out.println("timestamp: " + timestamp);
@@ -104,6 +105,7 @@ public class KeskustelunavausDao implements Dao<Keskustelunavaus, Integer> {
 
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         int count = rs.getInt(1);
         connection.close();
         return count;
